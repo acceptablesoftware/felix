@@ -1,0 +1,33 @@
+name: build-and-publish-image
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build-and-publish-image:
+    runs-on: ubuntu-20.04
+    permissions:
+      packages: write
+      contents: read
+    env:
+      VERSION: "1.0.0"
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image
+        run: docker image build
+          -t ghcr.io/acceptablesoftware/felix:$VERSION
+          ./felix
+
+      - name: Publish image
+        run: docker push ghcr.io/acceptablesoftware/felix:$VERSION
