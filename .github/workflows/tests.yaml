@@ -1,0 +1,12 @@
+name: tests
+
+on: [push, pull_request]
+
+jobs:
+  test-image-builds:
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker image build -t felix:build-test ./felix
