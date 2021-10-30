@@ -1,0 +1,5 @@
+FROM python:3.10.0-alpine3.14
+
+ENV PYTHONUNBUFFERED=1
+
+ENTRYPOINT /bin/sh
