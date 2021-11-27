@@ -1,7 +1,7 @@
 FROM python:3.10.0-alpine3.14
 
 # Create and use a non-root user.
-RUN adduser -D appuser
+RUN adduser -D -u 1000 appuser
 USER appuser
 ENV USER=appuser
 WORKDIR /home/appuser

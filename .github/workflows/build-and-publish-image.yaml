@@ -11,7 +11,7 @@ jobs:
       packages: write
       contents: read
     env:
-      VERSION: "1.1.0"
+      VERSION: "1.1.1"
 
     steps:
       - name: Git checkout
