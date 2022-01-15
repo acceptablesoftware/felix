@@ -46,8 +46,7 @@ jobs:
           }
 
       - name: Push tag
-        uses: ad-m/github-push-action@v0.6.0
+        uses: EndBug/add-and-commit@v7
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          tags: True
-          branch: ${{ github.ref_name }}
+          tag: 'v1.1.2'
