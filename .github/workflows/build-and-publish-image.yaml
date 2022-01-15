@@ -11,8 +11,6 @@ jobs:
     permissions:
       packages: write
       contents: read
-    env:
-      VERSION: "1.1.1"
 
     steps:
       - name: Git checkout
@@ -25,6 +23,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set VERSION
+        run: echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
+
       - name: Build image
         run: docker image build
           -t ghcr.io/acceptablesoftware/felix:$VERSION
@@ -36,6 +37,17 @@ jobs:
           # inspecting the manifest.
           docker manifest inspect
             ghcr.io/acceptablesoftware/felix:$VERSION
-          ||
-          docker push
-            ghcr.io/acceptablesoftware/felix:$VERSION
+          || {
+            docker push
+              ghcr.io/acceptablesoftware/felix:$VERSION &&
+            git config --local user.name "GitHub Action" &&
+            git config --local user.email "action@github.com" &&
+            git tag -a -m "version tag" "v$VERSION";
+          }
+
+      - name: Push tag
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tags: True
+          branch: ${{ github.ref }}
