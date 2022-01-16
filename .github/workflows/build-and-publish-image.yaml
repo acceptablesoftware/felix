@@ -45,8 +45,8 @@ jobs:
             git tag -a -m "version tag" "v$VERSION";
           }
 
-      - name: Push tag
-        uses: EndBug/add-and-commit@v7
+      - name: Bump version and push tag
+        uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: 'v1.1.2'
+          tags: True
