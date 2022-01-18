@@ -2,7 +2,8 @@ name: Build and publish image
 
 on:
   push:
-      branches: [master]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_dispatch:
 
 jobs:
@@ -12,7 +13,7 @@ jobs:
       packages: write
       contents: read
     env:
-      VERSION: "1.1.1"
+      VERSION: ${{ github.ref_name }}
 
     steps:
       - name: Git checkout
@@ -27,7 +28,7 @@ jobs:
 
       - name: Build image
         run: docker image build
-          -t ghcr.io/acceptablesoftware/felix:$VERSION
+          -t ghcr.io/acceptablesoftware/felix:${VERSION#v}
           ./felix
 
       - name: Publish image
@@ -35,7 +36,7 @@ jobs:
           # Prevent overwriting if the version already exists by
           # inspecting the manifest.
           docker manifest inspect
-            ghcr.io/acceptablesoftware/felix:$VERSION
+            ghcr.io/acceptablesoftware/felix:${VERSION#v}
           ||
           docker push
-            ghcr.io/acceptablesoftware/felix:$VERSION
+            ghcr.io/acceptablesoftware/felix:${VERSION#v}
