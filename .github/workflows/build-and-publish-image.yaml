@@ -33,4 +33,4 @@ jobs:
 
       - name: Publish image
         run: docker push
-            ghcr.io/acceptablesoftware/felix:${VERSION#v}
+          ghcr.io/acceptablesoftware/felix:${VERSION#v}
