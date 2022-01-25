@@ -32,11 +32,5 @@ jobs:
           ./felix
 
       - name: Publish image
-        run:
-          # Prevent overwriting if the version already exists by
-          # inspecting the manifest.
-          docker manifest inspect
-            ghcr.io/acceptablesoftware/felix:${VERSION#v}
-          ||
-          docker push
+        run: docker push
             ghcr.io/acceptablesoftware/felix:${VERSION#v}
