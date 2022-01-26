@@ -9,4 +9,4 @@ WORKDIR /home/appuser
 # Do not buffer Python output and send it straight to the terminal.
 ENV PYTHONUNBUFFERED=1
 
-ENTRYPOINT /bin/sh
+CMD ["/bin/sh"]
